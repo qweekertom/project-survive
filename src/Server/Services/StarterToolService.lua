@@ -3,7 +3,7 @@
 -- November 4, 2020
 
 local ServerStorage = game:GetService("ServerStorage")
-local StarterTools = ServerStorage:FindFirstChild("StarterTools")
+local StarterTools
 
 local StarterToolService = {Client = {}}
 
@@ -16,7 +16,7 @@ function StarterToolService:GivePlayerTools(player)
 end
 
 function StarterToolService:Start()
-	
+	StarterTools = ServerStorage.Assets:WaitForChild("StarterTools")
 end
 
 
