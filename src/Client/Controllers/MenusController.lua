@@ -7,10 +7,12 @@ local MainGui
 local MenusController = {}
 local ActiveMenu
 
-local function TweenSize(gui, xSize, time)
-    time = time or 0.2
-    xSize = xSize or 100
-    gui:TweenSize(UDim2.new(0, xSize, 0, 50), Enum.EasingDirection.InOut, Enum.EasingStyle.Sine, 0.5, true)
+local function SetActiveColor(gui, isActive)
+    if isActive then
+        gui.BackgroundColor3 = Color3.fromRGB(248, 255, 201)
+    else
+        gui.BackgroundColor3 = Color3.fromRGB(255,255,255)
+    end
 end
 
 function BindMenuButtons()
@@ -21,16 +23,16 @@ function BindMenuButtons()
                 if (ActiveMenu ~= nil and ActiveMenu ~= menu) then --> if a menu is open, and it's not the one we want
                     ActiveMenu.Visible = false
                     menu.Visible = true
-                    TweenSize(btn, 110)
-                    TweenSize(MainGui.Buttons[ActiveMenu.Name], 100)
+                    SetActiveColor(btn, true)
+                    SetActiveColor(MainGui.Buttons[ActiveMenu.Name], false)
                     ActiveMenu = menu
                 elseif (ActiveMenu == menu) then --> if the open menu is the one we want, close it
                     menu.Visible = false
-                    TweenSize(btn, 100)
+                    SetActiveColor(btn, false)
                     ActiveMenu = nil
                 else --> if there is no open menu, open the one we want
                     menu.Visible = true
-                    TweenSize(btn, 110)
+                    SetActiveColor(btn, true)
                     ActiveMenu = menu
                 end
             end)

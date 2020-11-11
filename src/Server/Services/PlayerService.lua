@@ -9,7 +9,8 @@ local PlayerService = {Client = {}}
 
 function PlayerService:Start()
     --> player joining
-	Players.PlayerAdded:Connect(function(plr)
+    Players.PlayerAdded:Connect(function(plr)
+        self.Services.InventoryService:MakeInventory(plr)
         plr.CharacterAdded:Connect(function(character)
             self.Services.StarterToolService:GivePlayerTools(plr)
         end)

@@ -23,7 +23,7 @@ function RuntimeService:GetFolder(name)
 end
 
 function RuntimeService:Start()
-    game.Workspace:FindFirstChild("RuntimeDestroy"):Destroy()
+    --game.Workspace:FindFirstChild("RuntimeDestroy"):Destroy()
     WorkspaceAssets = MakeAssetsFolder(workspace)
 
     for _, runtimeAsset in pairs(RuntimeAssets:GetChildren()) do

@@ -3,6 +3,8 @@
 -- November 4, 2020
 
 local ServerStorage = game:GetService("ServerStorage")
+local CollectionService = game:GetService("CollectionService")
+
 local ItemsFolder
 
 local ItemService = {Client = {}}
@@ -17,10 +19,12 @@ end
 function ItemService:SpawnItem(location, id)
     local Items = ServerStorage.Assets.ItemModels
     if (Items[id]) then
-        local c = Items[id]:Clone()
-        local cf = CFrame.new(location)
-        c:SetPrimaryPartCFrame(cf)
-        c.Parent = ItemsFolder
+        local clone = Items[id]:Clone()
+        local cframe = CFrame.new(location)
+        clone:SetPrimaryPartCFrame(cframe) 
+        CollectionService:AddTag(clone, "interact")
+        CollectionService:AddTag(clone, "item")
+        clone.Parent = ItemsFolder
     end
 end
 
