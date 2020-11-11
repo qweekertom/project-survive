@@ -32,8 +32,16 @@ local function Stepped(dt)
             closest.object = obj
         end
         
-        Prompt.Adornee = closest.object
-        currentInteraction = closest.object
+        if (closest.object) then
+            Prompt.Enabled = true
+            Prompt.Adornee = closest.object
+            currentInteraction = closest.object
+        else
+            Prompt.Enabled = false
+            Prompt.Adornee = nil
+            currentInteraction = nil
+        end
+        
     end
 end
 

@@ -4,6 +4,7 @@
 
 local ServerStorage = game:GetService("ServerStorage")
 local CollectionService = game:GetService("CollectionService")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local ItemsFolder
 
@@ -16,16 +17,31 @@ local function TestItemSpawning()
     ItemService:SpawnItem(Vector3.new(141, 12.5, 144), "brick")
 end
 
-function ItemService:SpawnItem(location, id)
+function ItemService.Client:GetViewportObject(player, id)
+    local model = self.Server:GetItemModel(id)
+    model.Parent = ReplicatedStorage.ViewportObjects
+    return model
+end
+
+function ItemService:GetItemModel(id)
     local Items = ServerStorage.Assets.ItemModels
-    if (Items[id]) then
-        local clone = Items[id]:Clone()
-        local cframe = CFrame.new(location)
-        clone:SetPrimaryPartCFrame(cframe) 
-        CollectionService:AddTag(clone, "interact")
-        CollectionService:AddTag(clone, "item")
-        clone.Parent = ItemsFolder
+    local Model = Items[id]
+    if (Model) then
+        return Model:Clone()
+    else
+        warn("Failed to find item @id:",id)
+        return nil
     end
+end
+
+function ItemService:SpawnItem(location, id)
+    local clone = self:GetItemModel(id)
+    local cframe = CFrame.new(location)
+    clone:SetPrimaryPartCFrame(cframe) 
+    CollectionService:AddTag(clone, "interact")
+    CollectionService:AddTag(clone, "item")
+    clone.Parent = ItemsFolder
+
 end
 
 function ItemService:Start()

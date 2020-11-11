@@ -20,8 +20,8 @@ function InventoryService:MakeInventory(player)
     Inventories[player.UserId] = newInv
 
     newInv.sync.Changed:Connect(function(value)
-        --print(newInv)
-
+        if value then return end
+        self:FireClient("updateInventory",player, newInv)
         newInv:SetSync(true)
     end)
 end
