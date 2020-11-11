@@ -58,10 +58,6 @@ function ItemCellClass:SetViewportData(viewportData)
 	self._viewportData = viewportData
 end
 
-function ItemCellClass:BindClick(func)
-	return self.Element.Input.MouseButton1Click:connect(func)
-end
-
 function ItemCellClass:Destroy()
 	self.Element:Destroy()
 	self = nil

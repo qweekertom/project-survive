@@ -11,6 +11,7 @@ local ItemData
 local InventoryGui
 
 local TooltipOffset = Vector2.new(20, 0)
+local CurrentTooltip
 local TooltipBox
 local Mouse
 
@@ -32,9 +33,12 @@ function UpdateTooltip(visible, id)
         TooltipBox.ItemType.Text = data.Type
     end
     TooltipBox.Visible = visible
+    CurrentTooltip = id
 end
 
 function Inventory:UpdateItems(invData)
+    --UpdateTooltip(false)
+
     local Items = invData.items
     local List = InventoryGui.Items
     local ItemCellClass = self.Modules.Interface.ItemCellClass
@@ -69,7 +73,17 @@ function Inventory:UpdateItems(invData)
             end)
 
             newListItem.Element.Input.MouseLeave:Connect(function()
-                UpdateTooltip(false, nil)
+                UpdateTooltip(false)
+            end)
+
+            newListItem.Element.Input.MouseButton1Click:Connect(function()
+                local changeTable = {
+                    Type = "DROP",
+                    Quantity = 1,
+                    Id = id
+                }
+
+                self.Services.InventoryService:MakeChanges(changeTable)
             end)
 
             --> update the cell & viewport
@@ -85,6 +99,9 @@ function Inventory:UpdateItems(invData)
     for id, listItem in pairs(CellCache) do
         if not (AccountedFor[id]) then
             CellCache[id] = listItem:Destroy()
+            if (id == CurrentTooltip) then
+                UpdateTooltip(false)
+            end
         end
     end
 end
@@ -97,9 +114,10 @@ function Inventory:Start()
 
     TooltipBox.Visible = false
 
-	self.Services.InventoryService.updateInventory:Connect(function(...)
-        print(...)
-        Inventory:UpdateItems(...)
+	self.Services.InventoryService.updateInventory:Connect(function(invData)
+        --> debug
+        --print(invData)
+        Inventory:UpdateItems(invData)
     end)
 
     Mouse.Move:Connect(OnMouseMove)
