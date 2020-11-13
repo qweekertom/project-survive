@@ -46,8 +46,12 @@ end
 function ItemService:SpawnItem(location, id)
     local clone = self:GetItemModel(id)
 
+    if (typeof(location) == "Vector3") then
+        location = CFrame.new(location)
+    end
+
     local randomRotation = math.rad(math.random(0, 360))
-    local cframe = CFrame.new(location) * CFrame.Angles(0, randomRotation, 0)
+    local cframe = location * CFrame.Angles(0, randomRotation, 0)
     
     clone:SetPrimaryPartCFrame(cframe) 
     CollectionService:AddTag(clone, "interact")

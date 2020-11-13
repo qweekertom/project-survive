@@ -30,7 +30,18 @@ function InventoryService.Client:MakeChanges(player, changeTable)
         --> perform class method, and react upon success
         local success = inventory:RemoveItem(changeTable.Id, changeTable.Quantity)
         if (success) then
-            return
+            --> perform the drop into the world
+            
+            local hipHeight = player.Character.Humanoid.HipHeight
+            local rootSize = player.Character.HumanoidRootPart.Size.Y / 2
+            local rootCFrame = player.Character.HumanoidRootPart.CFrame
+            
+            local offset = Vector3.new(0,hipHeight + rootSize - .5,0)
+            local targetPosition = (rootCFrame - offset).Position
+
+
+            --self.Server.Services.ItemService:SpawnItem(position, changeTable.Id)
+
         end
     elseif (changeType == "PICKUP") then
         --> table check
