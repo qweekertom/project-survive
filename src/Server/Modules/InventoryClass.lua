@@ -44,6 +44,9 @@ end
 function InventoryClass:AddItem(id, quantity)
 	local itemWeight = ItemUtil.GetProperty(id, "Weight") * quantity
 	local canTake = (itemWeight + self.total_weight <= self.max_weight)
+
+	print(canTake, self.total_weight)
+
 	if not (canTake) then return false end
 
 	local existingStack = self.items[id]

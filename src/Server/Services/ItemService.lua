@@ -11,10 +11,19 @@ local ItemsFolder
 local ItemService = {Client = {}}
 
 local function TestItemSpawning()
-    ItemService:SpawnItem(Vector3.new(136, 12.5, 138), "brick")
-    ItemService:SpawnItem(Vector3.new(141, 12.5, 138), "brick")
-    ItemService:SpawnItem(Vector3.new(136, 12.5, 144), "brick")
-    ItemService:SpawnItem(Vector3.new(141, 12.5, 144), "brick")
+    local origin = Vector3.new(136, 12.5, 138)
+    local items = {
+        "ammo_pistol",
+        "ammo_rifle",
+        "brick"
+    }
+    for x=1, 4 do
+        for z=1, 4 do
+            local position = origin + Vector3.new(x*4, 0, z*4)
+            local randomItem = math.random(1, #items)
+            ItemService:SpawnItem(position, items[randomItem])
+        end
+    end
 end
 
 function ItemService.Client:GetViewportObject(player, id)
