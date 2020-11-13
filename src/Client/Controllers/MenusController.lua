@@ -22,6 +22,7 @@ end
 
 local function OpenMenu(menuName)
     local menu = MainGui.Menus:FindFirstChild(menuName)
+    menu.Visible = false
     local btn = MainGui.Buttons:FindFirstChild(menuName)
     if (ActiveMenu ~= nil and ActiveMenu ~= menu) then --> if a menu is open, and it's not the one we want
         ActiveMenu.Visible = false

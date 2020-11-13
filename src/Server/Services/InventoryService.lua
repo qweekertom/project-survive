@@ -2,7 +2,7 @@
 -- qweekertom
 -- November 10, 2020
 
-
+local CollectionService = game:GetService("CollectionService")
 
 local InventoryService = {Client = {}}
 local Inventories = {}
@@ -38,6 +38,7 @@ function InventoryService.Client:MakeChanges(player, changeTable)
 
         --> perform class method, and react upon success
         local success = inventory:AddItem(changeTable.Id, 1)
+
         if (success) then
             changeTable.Object:Destroy()
         end

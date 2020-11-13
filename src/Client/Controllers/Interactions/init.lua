@@ -10,6 +10,7 @@ local InteractionController = {}
 local Interactions = {}
 
 local TAG_NAME = "interact"
+local KEY
 local PromptDistance = 10
 local Prompt
 
@@ -24,6 +25,14 @@ end
 local function Stepped(dt)
     local objects = CollectionService:GetTagged(TAG_NAME)
     local closest = {object = nil, distance = math.huge}
+
+    if (#objects <= 0) then
+        Prompt.Enabled = false
+        Prompt.Adornee = nil
+        currentInteraction = nil
+        ContextActionService:UnbindAction("interaction")
+    end
+
     for _, obj in pairs(objects) do
         local pos = obj.PrimaryPart.Position
         local distance = game.Players.LocalPlayer:DistanceFromCharacter(pos)
@@ -36,10 +45,12 @@ local function Stepped(dt)
             Prompt.Enabled = true
             Prompt.Adornee = closest.object
             currentInteraction = closest.object
+            ContextActionService:BindAction("interaction",HandleInput,false,KEY)
         else
             Prompt.Enabled = false
             Prompt.Adornee = nil
             currentInteraction = nil
+            ContextActionService:UnbindAction("interaction")
         end
         
     end
@@ -67,11 +78,10 @@ function InteractionController:Setup()
 end
 
 function InteractionController:Start()
-    local key = self.Modules.Keybinds[TAG_NAME]
+    KEY = self.Modules.Keybinds[TAG_NAME]
     self:Setup()
     Prompt = self.Player.PlayerGui:WaitForChild("Interaction")
     RunService:BindToRenderStep("interaction",1,Stepped)
-    ContextActionService:BindAction("interaction",HandleInput,false,key)
 end
 
 

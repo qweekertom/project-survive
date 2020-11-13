@@ -7,7 +7,7 @@ function item:Fire(Aero, Object)
         Object = Object
     }
 
-    Aero.Services.InventoryService:MakeChanges(changeTable)
+    local success = Aero.Services.InventoryService:MakeChanges(changeTable)
 end
 
 return item

@@ -13,9 +13,9 @@ local ItemService = {Client = {}}
 local function TestItemSpawning()
     local origin = Vector3.new(136, 12.5, 138)
     local items = {
-        "ammo_pistol",
-        "ammo_rifle",
-        "brick"
+        "ammo_pistol";
+        --"ammo_rifle",
+        --"brick"
     }
     for x=1, 4 do
         for z=1, 4 do
