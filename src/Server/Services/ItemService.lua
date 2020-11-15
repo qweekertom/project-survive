@@ -14,7 +14,10 @@ local function TestItemSpawning()
     local origin = Vector3.new(136, 12.5, 138)
     local items = {
         "ammo_pistol";
-        --"ammo_rifle",
+        "ammo_rifle",
+        "pistol",
+        "rifle",
+        "shotgun"
         --"brick"
     }
     for x=1, 4 do
